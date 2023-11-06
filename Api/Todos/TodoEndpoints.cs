@@ -8,21 +8,23 @@ namespace Api.Todos;
 
 internal static class TodoEndpoints
 {
+    private const string EndpointBaseUrl = "/todos";
+
     public static void MapTodosEndpoints(this WebApplication app)
     {
-        var todoItems = app.MapGroup("/todoitems").WithTags("todo");
+        var todoItems = app.MapGroup(EndpointBaseUrl).WithTags("todo");
 
-        todoItems.MapGet("/", GetAllTodos).WithName("getAll");
         todoItems.MapGet("/complete", GetCompleteTodos).WithName("getAllCompleted");
+        todoItems.MapGet("/", GetAllTodos).WithName("getAll");
         todoItems.MapGet("/{id}", GetTodo).WithName("getById");
         todoItems.MapPost("/", CreateTodo).WithName("create");
         todoItems.MapPut("/{id}", UpdateTodo).WithName("update");
         todoItems.MapDelete("/{id}", DeleteTodo).WithName("delete");
     }
 
-    private record class TodoItemDTO(int Id, string Name, bool IsCompleted)
+    private record class TodoItemDTO(int Id, string Name, bool IsCompleted, DateTimeOffset Created, DateTimeOffset Modified)
     {
-        public TodoItemDTO(Todo todo) : this(todo.Id, todo.Name, todo.IsComplete)
+        public TodoItemDTO(Todo todo) : this(todo.Id, todo.Name, todo.IsComplete, todo.Created, todo.Modified)
         { }
     }
 
@@ -32,7 +34,10 @@ internal static class TodoEndpoints
         {
             public Validator()
             {
-                RuleFor(x => x.Name).NotEmpty().WithName("name");
+                RuleFor(x => x.Name)
+                    .NotEmpty()
+                    .MaximumLength(200)
+                    .WithName("name");
             }
         }
     }
@@ -49,7 +54,10 @@ internal static class TodoEndpoints
                 ? TypedResults.Ok(new TodoItemDTO(todo))
                 : TypedResults.NotFound();
 
-    private static async Task<Results<Created<TodoItemDTO>, BadRequest, ValidationProblem>> CreateTodo([FromBody] AddOrUpdateTodoDto todoItemDTO, TodoDb db)
+    private static async Task<Results<Created<TodoItemDTO>, BadRequest, ValidationProblem>> CreateTodo(
+        [FromBody] AddOrUpdateTodoDto todoItemDTO, 
+        TodoDb db,
+        TimeProvider timeProvider)
     {
         var validationResult = new AddOrUpdateTodoDto.Validator().Validate(todoItemDTO);
 
@@ -61,7 +69,9 @@ internal static class TodoEndpoints
         var todoItem = new Todo
         {
             IsComplete = todoItemDTO.IsCompleted,
-            Name = todoItemDTO.Name
+            Name = todoItemDTO.Name,
+            Created = timeProvider.GetUtcNow(),
+            Modified = timeProvider.GetUtcNow(),
         };
 
         db.Todos.Add(todoItem);
@@ -69,10 +79,14 @@ internal static class TodoEndpoints
 
         var result = new TodoItemDTO(todoItem);
 
-        return TypedResults.Created($"/todoitems/{result.Id}", result);
+        return TypedResults.Created($"{EndpointBaseUrl}/{result.Id}", result);
     }
 
-    private static async Task<Results<NoContent, NotFound, BadRequest, ValidationProblem>> UpdateTodo([FromQuery] int id, [FromBody] AddOrUpdateTodoDto todoItemDTO, TodoDb db)
+    private static async Task<Results<NoContent, NotFound, BadRequest, ValidationProblem>> UpdateTodo(
+        [FromQuery] int id, 
+        [FromBody] AddOrUpdateTodoDto todoItemDTO, 
+        TodoDb db,
+        TimeProvider timeProvider)
     {
         var validationResult = new AddOrUpdateTodoDto.Validator().Validate(todoItemDTO);
 
@@ -88,6 +102,7 @@ internal static class TodoEndpoints
 
         todo.Name = todoItemDTO.Name;
         todo.IsComplete = todoItemDTO.IsCompleted;
+        todo.Modified = timeProvider.GetUtcNow();
 
         await db.SaveChangesAsync();
 
