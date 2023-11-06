@@ -1,6 +1,38 @@
-@Api_HostAddress = http://localhost:5256
+﻿@Api_HostAddress = https://localhost:7042
 
-GET {{Api_HostAddress}}/weatherforecast/
-Accept: application/json
+###
+
+POST {{Api_HostAddress}}/todoitems
+Content-Type: application/json
+
+{
+  "name":"walk dog",
+  "isComplete":true
+}
+
+###
+
+Get {{Api_HostAddress}}/todoitems
+
+###
+
+
+GET {{Api_HostAddress}}/todoitems/1
+
+###
+
+Put {{Api_HostAddress}}/todoitems/1
+
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "feed fish",
+  "isComplete": false
+}
+
+###
+
+DELETE {{Api_HostAddress}}/todoitems/1
 
 ###
