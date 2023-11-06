@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Todos;
 
-internal static class TodoEndpoints
+public static class TodoEndpoints
 {
     private const string EndpointBaseUrl = "/todos";
 
@@ -17,45 +17,26 @@ internal static class TodoEndpoints
         todoItems.MapGet("/complete", GetCompleteTodos).WithName("getAllCompleted");
         todoItems.MapGet("/", GetAllTodos).WithName("getAll");
         todoItems.MapGet("/{id}", GetTodo).WithName("getById");
+
         todoItems.MapPost("/", CreateTodo).WithName("create");
         todoItems.MapPut("/{id}", UpdateTodo).WithName("update");
         todoItems.MapDelete("/{id}", DeleteTodo).WithName("delete");
-    }
+    }   
 
-    private record class TodoItemDTO(int Id, string Name, bool IsCompleted, DateTimeOffset Created, DateTimeOffset Modified)
-    {
-        public TodoItemDTO(Todo todo) : this(todo.Id, todo.Name, todo.IsComplete, todo.Created, todo.Modified)
-        { }
-    }
+    private static async Task<Ok<TodoDTO[]>> GetAllTodos(TodoDb db)
+        => TypedResults.Ok(await db.Todos.Select(x => new TodoDTO(x)).ToArrayAsync());
 
-    private record class AddOrUpdateTodoDto(string Name, bool IsCompleted)
-    {
-        public class Validator : AbstractValidator<AddOrUpdateTodoDto>
-        {
-            public Validator()
-            {
-                RuleFor(x => x.Name)
-                    .NotEmpty()
-                    .MaximumLength(200)
-                    .WithName("name");
-            }
-        }
-    }
+    private static async Task<Ok<TodoDTO[]>> GetCompleteTodos(TodoDb db)
+        => TypedResults.Ok(await db.Todos.Where(t => t.IsComplete).Select(x => new TodoDTO(x)).ToArrayAsync());
 
-    private static async Task<Ok<TodoItemDTO[]>> GetAllTodos(TodoDb db)
-        => TypedResults.Ok(await db.Todos.Select(x => new TodoItemDTO(x)).ToArrayAsync());
-
-    private static async Task<Ok<TodoItemDTO[]>> GetCompleteTodos(TodoDb db)
-        => TypedResults.Ok(await db.Todos.Where(t => t.IsComplete).Select(x => new TodoItemDTO(x)).ToArrayAsync());
-
-    private static async Task<Results<Ok<TodoItemDTO>, NotFound>> GetTodo([FromQuery] int id, TodoDb db)
+    private static async Task<Results<Ok<TodoDTO>, NotFound>> GetTodo(int id, TodoDb db)
         => await db.Todos.FindAsync(id)
             is Todo todo
-                ? TypedResults.Ok(new TodoItemDTO(todo))
+                ? TypedResults.Ok(new TodoDTO(todo))
                 : TypedResults.NotFound();
 
-    private static async Task<Results<Created<TodoItemDTO>, BadRequest, ValidationProblem>> CreateTodo(
-        [FromBody] AddOrUpdateTodoDto todoItemDTO, 
+    private static async Task<Results<Created<TodoDTO>, BadRequest, ValidationProblem>> CreateTodo(
+        AddOrUpdateTodoDto todoItemDTO, 
         TodoDb db,
         TimeProvider timeProvider)
     {
@@ -77,14 +58,14 @@ internal static class TodoEndpoints
         db.Todos.Add(todoItem);
         await db.SaveChangesAsync();
 
-        var result = new TodoItemDTO(todoItem);
+        var result = new TodoDTO(todoItem);
 
         return TypedResults.Created($"{EndpointBaseUrl}/{result.Id}", result);
     }
 
     private static async Task<Results<NoContent, NotFound, BadRequest, ValidationProblem>> UpdateTodo(
-        [FromQuery] int id, 
-        [FromBody] AddOrUpdateTodoDto todoItemDTO, 
+        int id, 
+        AddOrUpdateTodoDto todoItemDTO, 
         TodoDb db,
         TimeProvider timeProvider)
     {
@@ -109,7 +90,7 @@ internal static class TodoEndpoints
         return TypedResults.NoContent();
     }
 
-    private static async Task<Results<NoContent, NotFound>> DeleteTodo([FromQuery] int id, TodoDb db)
+    private static async Task<Results<NoContent, NotFound>> DeleteTodo(int id, TodoDb db)
     {
         if (await db.Todos.FindAsync(id) is Todo todo)
         {

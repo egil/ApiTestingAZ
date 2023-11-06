@@ -3,7 +3,7 @@
 namespace Api.Data;
 
 public class Todo
-{    
+{
     public int Id { get; set; }
 
     [MaxLength(200)]

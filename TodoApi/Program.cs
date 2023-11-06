@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddProblemDetails();
 
+builder.Services.AddProblemDetails();
 builder.AddTodoDatabase();
 
 // Change formatting of JSON
