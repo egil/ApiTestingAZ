@@ -1,4 +1,5 @@
 ﻿using Api.Data;
+using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,25 +20,21 @@ internal static class TodoEndpoints
         todoItems.MapDelete("/{id}", DeleteTodo).WithName("delete");
     }
 
-    private class TodoItemDTO
+    private record class TodoItemDTO(int Id, string Name, bool IsCompleted)
     {
-        public int Id { get; set; }
-
-        public string? Name { get; set; }
-
-        public bool IsComplete { get; set; }
-
-        public TodoItemDTO() { }
-
-        public TodoItemDTO(Todo todoItem)
-            => (Id, Name, IsComplete) = (todoItem.Id, todoItem.Name, todoItem.IsComplete);
+        public TodoItemDTO(Todo todo) : this(todo.Id, todo.Name, todo.IsComplete)
+        { }
     }
 
-    private class AddedOrChangedTodoItemDTO
+    private record class AddOrUpdateTodoDto(string Name, bool IsCompleted)
     {
-        public string? Name { get; set; }
-
-        public bool IsComplete { get; set; }
+        public class Validator : AbstractValidator<AddOrUpdateTodoDto>
+        {
+            public Validator()
+            {
+                RuleFor(x => x.Name).NotEmpty().WithName("name");
+            }
+        }
     }
 
     private static async Task<Ok<TodoItemDTO[]>> GetAllTodos(TodoDb db)
@@ -52,11 +49,18 @@ internal static class TodoEndpoints
                 ? TypedResults.Ok(new TodoItemDTO(todo))
                 : TypedResults.NotFound();
 
-    private static async Task<Results<Created<TodoItemDTO>, BadRequest>> CreateTodo([FromBody] AddedOrChangedTodoItemDTO todoItemDTO, TodoDb db)
+    private static async Task<Results<Created<TodoItemDTO>, BadRequest, ValidationProblem>> CreateTodo([FromBody] AddOrUpdateTodoDto todoItemDTO, TodoDb db)
     {
+        var validationResult = new AddOrUpdateTodoDto.Validator().Validate(todoItemDTO);
+
+        if (!validationResult.IsValid)
+        {
+            return TypedResults.ValidationProblem(validationResult.ToDictionary());
+        }
+
         var todoItem = new Todo
         {
-            IsComplete = todoItemDTO.IsComplete,
+            IsComplete = todoItemDTO.IsCompleted,
             Name = todoItemDTO.Name
         };
 
@@ -68,15 +72,22 @@ internal static class TodoEndpoints
         return TypedResults.Created($"/todoitems/{result.Id}", result);
     }
 
-    private static async Task<Results<NoContent, NotFound, BadRequest>> UpdateTodo([FromQuery] int id, [FromBody] AddedOrChangedTodoItemDTO todoItemDTO, TodoDb db)
+    private static async Task<Results<NoContent, NotFound, BadRequest, ValidationProblem>> UpdateTodo([FromQuery] int id, [FromBody] AddOrUpdateTodoDto todoItemDTO, TodoDb db)
     {
+        var validationResult = new AddOrUpdateTodoDto.Validator().Validate(todoItemDTO);
+
+        if (!validationResult.IsValid)
+        {
+            return TypedResults.ValidationProblem(validationResult.ToDictionary());
+        }
+
         var todo = await db.Todos.FindAsync(id);
 
-        if (todo is null) 
+        if (todo is null)
             return TypedResults.NotFound();
 
         todo.Name = todoItemDTO.Name;
-        todo.IsComplete = todoItemDTO.IsComplete;
+        todo.IsComplete = todoItemDTO.IsCompleted;
 
         await db.SaveChangesAsync();
 
