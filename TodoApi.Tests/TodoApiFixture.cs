@@ -1,6 +1,7 @@
-﻿using TodoApi.AblaExtensions;
+﻿using TimeProviderExtensions;
+using TodoApi.AblaExtensions;
 
-namespace TodoApi.Tests;
+namespace TodoApi;
 
 //[assembly: CollectionBehavior(DisableTestParallelization = true)]
 
@@ -13,10 +14,14 @@ public class TodoApiFixture : IAsyncLifetime
 
     public IAlbaHost AlbaHost { get; private set; } = null!;
 
+    public ManualTimeProvider TimeProvider { get; } = new();
+
     public async Task InitializeAsync()
     {
         testDb = new UseLocalTestDb();
-        AlbaHost = await Alba.AlbaHost.For<global::Program>(testDb);
+        AlbaHost = await Alba.AlbaHost.For<global::Program>(
+            testDb,
+            new UseManualtTimeProvider(TimeProvider));
     }
 
     public async Task DisposeAsync()
@@ -26,42 +31,4 @@ public class TodoApiFixture : IAsyncLifetime
 
     public async Task ResetDatabase()
         => await testDb.ResetDatabase();
-}
-
-[CollectionDefinition(nameof(ApiTestCollection))]
-public sealed class ApiTestCollection : ICollectionFixture<TodoApiFixture>
-{
-}
-
-/// <summary>
-/// A base case for API tests that wants to share a single
-/// <see cref="TodoApiFixture"/> and database. It resets the database
-/// before each test run to ensure consistent execution of tests.
-/// </summary>
-[Collection(nameof(ApiTestCollection))]
-public abstract class TodoApiTestBase : IAsyncLifetime
-{
-    private readonly TodoApiFixture fixture;
-
-    public IAlbaHost Host { get; }
-
-    protected TodoApiTestBase(TodoApiFixture fixture)
-    {
-        this.fixture = fixture;
-        Host = fixture.AlbaHost;
-    }
-
-    public Task InitializeAsync()
-    {
-        // Reset the database before running tests.
-        // This is safer compared to doing it after a test completes,
-        // since a test run may exit early/crash leaving
-        // the database in an unexpected state.
-        return fixture.ResetDatabase();
-    }
-
-    public Task DisposeAsync()
-    {
-        return Task.CompletedTask;
-    }
 }

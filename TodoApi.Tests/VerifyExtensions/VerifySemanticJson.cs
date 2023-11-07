@@ -5,8 +5,13 @@ using System.Text.Json.JsonDiffPatch;
 
 namespace TodoApi.VerifyExtensions;
 
-internal class VerifySemanticJson
+public class VerifySemanticJson
 {
+    private static readonly JsonSerializerOptions SerializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web)
+    {
+        WriteIndented = true
+    };
+
     public static bool Initialized { get; private set; }
 
     public static void Initialize()
@@ -53,9 +58,38 @@ internal class VerifySemanticJson
 
     private static Task<CompareResult> JsonSemanticCompare(string received, string verified, IReadOnlyDictionary<string, object> context)
     {
-        var receivedJson = JsonDocument.Parse(received);
-        var verifiedJson = JsonDocument.Parse(verified);
-        var result = verifiedJson.DeepEquals(receivedJson, JsonElementComparison.Semantic);
-        return Task.FromResult(new CompareResult(result));
+        var verifiedJson = !string.IsNullOrWhiteSpace(verified) ? JsonNode.Parse(verified) : null;
+        var receivedJson = !string.IsNullOrWhiteSpace(received) ? JsonNode.Parse(received) : null;
+        var diffJson = JsonDiffPatcher.Diff(verifiedJson, receivedJson, new JsonDiffOptions
+        {
+            JsonElementComparison = JsonElementComparison.Semantic,
+        });
+
+        if (diffJson is null)
+        {
+            return Task.FromResult(CompareResult.Equal);
+        }
+
+        var errMsgBuilder = new StringBuilder();
+        errMsgBuilder.AppendLine("The received JSON does not matched the verified JSON:");
+        errMsgBuilder.AppendLine();
+        AppendJsonDiff(errMsgBuilder, verifiedJson, receivedJson, diffJson);
+
+        return Task.FromResult(CompareResult.NotEqual(errMsgBuilder.ToString()));
+    }
+
+    private static void AppendJsonDiff(StringBuilder builder, JsonNode? expected, JsonNode? actual, JsonNode diff)
+    {
+        builder.Append("Expected:");
+        builder.AppendLine();
+        builder.Append((expected is null) ? "null" : expected.ToJsonString(SerializerOptions));
+        builder.AppendLine();
+        builder.Append("Actual:");
+        builder.AppendLine();
+        builder.Append((actual is null) ? "null" : actual.ToJsonString(SerializerOptions));
+        builder.AppendLine();
+        builder.Append("Delta:");
+        builder.AppendLine();
+        builder.Append(diff.ToJsonString(SerializerOptions));
     }
 }

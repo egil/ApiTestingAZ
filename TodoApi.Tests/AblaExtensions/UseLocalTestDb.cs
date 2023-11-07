@@ -15,10 +15,28 @@ public sealed class UseLocalTestDb : IAlbaExtension
     private Respawner respawner = null!;
     private IServiceScope serviceScope = null!;
 
+    /// <summary>
+    /// Gets the name of test database to create in on the LocalDB Sql Server instance.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to "TestDb".
+    /// </remarks>
     public string TestDatabaseName { get; init; } = "TestDb";
 
+    /// <summary>
+    /// Gets whether or not to delete the test database on dispose. Default is <see langword="false"/>.
+    /// </summary>
     public bool DeleteDatabaseAfterRun { get; init; }
 
+    /// <summary>
+    /// Gets whether to reseed database keys when the database is reset. Default is <see langword="true"/>.
+    /// </summary>
+    public bool ReseedDatabase { get; init; } = true;
+
+    /// <summary>
+    /// Resets the test database.
+    /// </summary>
+    /// <returns></returns>
     public async Task ResetDatabase()
     {
         if (dbConnection.State != System.Data.ConnectionState.Open)
@@ -50,6 +68,7 @@ public sealed class UseLocalTestDb : IAlbaExtension
         dbContext = serviceScope.ServiceProvider.GetRequiredService<TodoDb>();
         dbConnection = dbContext.Database.GetDbConnection();
 
+        // Creates database and apply EF migrations, if needed
         await dbContext.Database.EnsureCreatedAsync();
 
         // Initialize respawner.        
@@ -61,6 +80,7 @@ public sealed class UseLocalTestDb : IAlbaExtension
                 DbAdapter = DbAdapter.SqlServer,
                 SchemasToInclude = ["dbo"],
                 TablesToIgnore = ["__EFMigrationsHistory"],
+                WithReseed = ReseedDatabase,
             });
     }
 

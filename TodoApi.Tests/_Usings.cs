@@ -1,3 +1,10 @@
 global using Alba;
-global using FluentAssertions;
 global using Xunit;
+global using FluentAssertions;
+global using Microsoft.Extensions.DependencyInjection;
+global using TodoApi.Data;
+global using TodoApi.AblaExtensions;
+global using TodoApi.VerifyExtensions;
+global using System.Net;
+global using Microsoft.Net.Http.Headers;
+global using System.Net.Mime;

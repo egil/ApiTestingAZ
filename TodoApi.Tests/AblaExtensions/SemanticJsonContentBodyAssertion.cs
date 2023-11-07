@@ -6,7 +6,7 @@ using System.Text.Json.Nodes;
 
 namespace TodoApi.AblaExtensions;
 
-internal sealed class SemanticJsonContentBodyAssertion : IScenarioAssertion
+public sealed class SemanticJsonContentBodyAssertion : IScenarioAssertion
 {
     private static readonly JsonSerializerOptions SerializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web)
     {
@@ -22,7 +22,7 @@ internal sealed class SemanticJsonContentBodyAssertion : IScenarioAssertion
 
     public void Assert(Scenario scenario, HttpContext context, ScenarioAssertionException ex)
     {
-        var body = ex.ReadBody(context);
+        var body = ex.ReadBody(context);        
 
         var actualJson = body is not null ? JsonNode.Parse(body) : null;
         var diffJson = JsonDiffPatcher.Diff(Expected, actualJson, new JsonDiffOptions

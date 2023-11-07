@@ -10,5 +10,6 @@ internal class VerifyInit
         ClipboardAccept.Enable();
         VerifyHttp.Initialize();
         VerifySemanticJson.Initialize();
+        VerifyAlba.Initialize();
     }
 }
