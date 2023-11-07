@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using System.Text.Json;
 
-namespace Api;
+namespace TodoApi;
 
 internal static class ApiErrorHandling
 {
@@ -24,7 +24,7 @@ internal static class ApiErrorHandling
             }
         }));
 
-        app.UseStatusCodePages(async statusCodeContext => 
+        app.UseStatusCodePages(async statusCodeContext =>
             await Results.Problem(statusCode: statusCodeContext.HttpContext.Response.StatusCode)
                 .ExecuteAsync(statusCodeContext.HttpContext));
     }

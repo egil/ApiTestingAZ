@@ -1,7 +1,7 @@
-﻿using Api.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using TodoApi.Data;
 
-class TodoDb : DbContext
+public sealed class TodoDb : DbContext
 {
     public DbSet<Todo> Todos => Set<Todo>();
 

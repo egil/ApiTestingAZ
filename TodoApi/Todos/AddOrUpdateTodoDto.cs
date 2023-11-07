@@ -1,10 +1,12 @@
 ﻿using FluentValidation;
 
-namespace Api.Todos;
+namespace TodoApi.Todos;
 
-public record class AddOrUpdateTodoDto(string Name, bool IsCompleted)
+public record class AddOrUpdateTodoDto(
+    string Name, 
+    bool IsCompleted)
 {
-    public class Validator : AbstractValidator<AddOrUpdateTodoDto>
+    public sealed class Validator : AbstractValidator<AddOrUpdateTodoDto>
     {
         public Validator()
         {

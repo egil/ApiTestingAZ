@@ -1,10 +1,10 @@
-﻿using Api.Data;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TodoApi.Data;
 
-namespace Api.Todos;
+namespace TodoApi.Todos;
 
 public static class TodoEndpoints
 {
@@ -14,14 +14,14 @@ public static class TodoEndpoints
     {
         var todoItems = app.MapGroup(EndpointBaseUrl).WithTags("todo");
 
-        todoItems.MapGet("/complete", GetCompleteTodos).WithName("getAllCompleted");
         todoItems.MapGet("/", GetAllTodos).WithName("getAll");
+        todoItems.MapGet("/complete", GetCompleteTodos).WithName("getAllCompleted");
         todoItems.MapGet("/{id}", GetTodo).WithName("getById");
 
         todoItems.MapPost("/", CreateTodo).WithName("create");
         todoItems.MapPut("/{id}", UpdateTodo).WithName("update");
         todoItems.MapDelete("/{id}", DeleteTodo).WithName("delete");
-    }   
+    }
 
     private static async Task<Ok<TodoDTO[]>> GetAllTodos(TodoDb db)
         => TypedResults.Ok(await db.Todos.Select(x => new TodoDTO(x)).ToArrayAsync());
@@ -36,7 +36,7 @@ public static class TodoEndpoints
                 : TypedResults.NotFound();
 
     private static async Task<Results<Created<TodoDTO>, BadRequest, ValidationProblem>> CreateTodo(
-        AddOrUpdateTodoDto todoItemDTO, 
+        AddOrUpdateTodoDto todoItemDTO,
         TodoDb db,
         TimeProvider timeProvider)
     {
@@ -64,8 +64,8 @@ public static class TodoEndpoints
     }
 
     private static async Task<Results<NoContent, NotFound, BadRequest, ValidationProblem>> UpdateTodo(
-        int id, 
-        AddOrUpdateTodoDto todoItemDTO, 
+        int id,
+        AddOrUpdateTodoDto todoItemDTO,
         TodoDb db,
         TimeProvider timeProvider)
     {

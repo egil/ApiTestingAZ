@@ -1,8 +1,8 @@
-using Api;
-using Api.Data;
-using Api.Todos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
+using TodoApi;
+using TodoApi.Data;
+using TodoApi.Todos;
 
 var builder = WebApplication.CreateBuilder(args);
 

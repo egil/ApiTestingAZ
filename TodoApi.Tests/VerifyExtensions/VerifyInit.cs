@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Api.VerifyHelpers;
+namespace TodoApi.VerifyExtensions;
 
 internal class VerifyInit
 {

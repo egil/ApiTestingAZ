@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using System.Text.Json.Nodes;
 using System.Text.Json;
-using System.Threading.Tasks;
-using Json.More;
+using System.Text.Json.JsonDiffPatch;
 
-namespace VerifyTests;
+namespace TodoApi.VerifyExtensions;
 
 internal class VerifySemanticJson
 {
@@ -59,7 +55,7 @@ internal class VerifySemanticJson
     {
         var receivedJson = JsonDocument.Parse(received);
         var verifiedJson = JsonDocument.Parse(verified);
-        var result = verifiedJson.IsEquivalentTo(receivedJson);
+        var result = verifiedJson.DeepEquals(receivedJson, JsonElementComparison.Semantic);
         return Task.FromResult(new CompareResult(result));
     }
 }

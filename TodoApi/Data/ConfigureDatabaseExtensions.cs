@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Api.Data;
+namespace TodoApi.Data;
 
 public static class ConfigureDatabaseExtensions
 {
