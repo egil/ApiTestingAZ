@@ -1,8 +1,7 @@
-﻿using TimeProviderExtensions;
+﻿using Alba.Security;
+using TimeProviderExtensions;
 
 namespace TodoApi.Tests;
-
-//[assembly: CollectionBehavior(DisableTestParallelization = true)]
 
 /// <summary>
 /// A test fixture that uses <see cref="UseLocalTestDb"/>.
@@ -17,9 +16,12 @@ public class TodoApiFixture : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
+        var securityStub = new AuthenticationStub().WithName("TestUser");
         testDb = new UseLocalTestDb();
+
         AlbaHost = await Alba.AlbaHost.For<Program>(
             testDb,
+            securityStub,
             new UseManualtTimeProvider(TimeProvider));
     }
 

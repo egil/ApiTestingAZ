@@ -8,7 +8,8 @@ public static class TodoEndpoints
     {
         var endpoints = app
             .MapGroup(EndpointBaseUrl)
-            .WithTags("todo");
+            .WithTags("todo")
+            .RequireAuthorization();
 
         ReadTodoEndpoints.Map(endpoints);
         CreateTodoEndpoints.Map(endpoints);
