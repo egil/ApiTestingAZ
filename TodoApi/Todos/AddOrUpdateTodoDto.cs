@@ -4,7 +4,7 @@ namespace TodoApi.Todos;
 
 public record class AddOrUpdateTodoDto(
     string Name, 
-    bool IsCompleted)
+    bool IsComplete)
 {
     public sealed class Validator : AbstractValidator<AddOrUpdateTodoDto>
     {

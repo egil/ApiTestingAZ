@@ -206,7 +206,7 @@
             "type": "string",
             "nullable": true
           },
-          "isCompleted": {
+          "isComplete": {
             "type": "boolean"
           }
         },
@@ -260,7 +260,7 @@
             "type": "string",
             "nullable": true
           },
-          "isCompleted": {
+          "isComplete": {
             "type": "boolean"
           },
           "created": {

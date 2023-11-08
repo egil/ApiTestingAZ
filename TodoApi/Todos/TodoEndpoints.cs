@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Data;
 
@@ -49,7 +48,7 @@ public static class TodoEndpoints
 
         var todoItem = new Todo
         {
-            IsComplete = todoItemDTO.IsCompleted,
+            IsComplete = todoItemDTO.IsComplete,
             Name = todoItemDTO.Name,
             Created = timeProvider.GetUtcNow(),
             Modified = timeProvider.GetUtcNow(),
@@ -82,7 +81,7 @@ public static class TodoEndpoints
             return TypedResults.NotFound();
 
         todo.Name = todoItemDTO.Name;
-        todo.IsComplete = todoItemDTO.IsCompleted;
+        todo.IsComplete = todoItemDTO.IsComplete;
         todo.Modified = timeProvider.GetUtcNow();
 
         await db.SaveChangesAsync();

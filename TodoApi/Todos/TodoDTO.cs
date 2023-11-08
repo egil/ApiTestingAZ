@@ -5,7 +5,7 @@ namespace TodoApi.Todos;
 public record class TodoDTO(
     int Id, 
     string Name, 
-    bool IsCompleted, 
+    bool IsComplete, 
     DateTimeOffset Created, 
     DateTimeOffset Modified)
 {

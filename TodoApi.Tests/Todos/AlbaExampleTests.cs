@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Text.Json;
+﻿using System.Text.Json;
 using TodoApi.AblaExtensions;
 
 namespace TodoApi.Todos;
@@ -30,7 +29,7 @@ public class AlbaExampleTests
             s.Get.Url("/todos");
 
             // All assertions is evaluated in a scenario
-            s.ContentIsEquivalentTo("[]");
+            s.ContentShouldBeJsonEquivalentTo("[]");
             s.ContentTypeShouldBe("application/json");
         });
     }

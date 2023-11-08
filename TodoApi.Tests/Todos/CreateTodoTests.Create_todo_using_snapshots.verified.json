@@ -1,0 +1,19 @@
+﻿{
+  "request": "POST",
+  "status": "201 Created",
+  "headers": {
+    "Location": [
+      "/todos/1"
+    ],
+    "Content-Type": [
+      "application/json; charset=utf-8"
+    ]
+  },
+  "body": {
+    "id": 1,
+    "name": "Give presentation at Oredev",
+    "isComplete": false,
+    "created": "2000-01-01T00:00:00\u002B00:00",
+    "modified": "2000-01-01T00:00:00\u002B00:00"
+  }
+}
