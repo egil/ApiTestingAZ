@@ -14,10 +14,17 @@ public static class ReadTodoEndpoints
     }
 
     public static async Task<Ok<TodoDto[]>> GetAllTodos(TodoDb db)
-        => TypedResults.Ok(await db.Todos.Select(x => new TodoDto(x)).ToArrayAsync());
+        => TypedResults.Ok(
+            await db.Todos
+                .Select(x => new TodoDto(x))
+                .ToArrayAsync());
 
     public static async Task<Ok<TodoDto[]>> GetCompleteTodos(TodoDb db)
-        => TypedResults.Ok(await db.Todos.Where(t => t.IsComplete).Select(x => new TodoDto(x)).ToArrayAsync());
+        => TypedResults.Ok(
+            await db.Todos
+                .Where(t => t.IsComplete)
+                .Select(x => new TodoDto(x))
+                .ToArrayAsync());
 
     public static async Task<Results<Ok<TodoDto>, NotFound>> GetTodo(int id, TodoDb db)
         => await db.Todos.FindAsync(id)

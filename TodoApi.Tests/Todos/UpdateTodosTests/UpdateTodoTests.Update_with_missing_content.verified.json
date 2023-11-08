@@ -1,0 +1,19 @@
+﻿{
+  "request": "PUT",
+  "status": "400 BadRequest",
+  "headers": {
+    "Content-Type": [
+      "application/problem\u002Bjson"
+    ]
+  },
+  "body": {
+    "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+    "title": "One or more validation errors occurred.",
+    "status": 400,
+    "errors": {
+      "name": [
+        "\u0027name\u0027 must not be empty."
+      ]
+    }
+  }
+}

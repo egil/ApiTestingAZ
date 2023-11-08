@@ -18,7 +18,7 @@ public partial class CreateTodoTests : TodoApiTestBase
                         IsComplete: false))
                 .ToUrl("/todos");
 
-            s.StatusCodeShouldBe(HttpStatusCode.Created);
+            s.StatusCodeShouldBe(StatusCodes.Status201Created);
         }).Verify();
     }
 }

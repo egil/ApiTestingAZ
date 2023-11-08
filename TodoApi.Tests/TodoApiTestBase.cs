@@ -8,7 +8,7 @@ namespace TodoApi.Tests;
 /// before each test run to ensure consistent execution of tests.
 /// </summary>
 [Collection(nameof(ApiTestCollection))]
-public abstract class TodoApiTestBase : IAsyncLifetime
+public abstract partial class TodoApiTestBase : IAsyncLifetime
 {
     private readonly TodoApiFixture fixture;
     private IServiceScope? serviceScope;

@@ -19,7 +19,7 @@ public class CreateTodoEndpoints
 
         if (!validationResult.IsValid)
         {
-            return TypedResults.ValidationProblem(validationResult.ToDictionary());
+            return TypedResults.ValidationProblem(validationResult.ToValidationProblemErrors());
         }
 
         var todoItem = new Todo

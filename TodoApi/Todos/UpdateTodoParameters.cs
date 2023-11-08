@@ -12,8 +12,7 @@ public record class UpdateTodoParameters(
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
-                .MaximumLength(200)
-                .WithName("name");
+                .MaximumLength(200);
         }
     }
 }

@@ -10,11 +10,7 @@ builder.Services.AddProblemDetails();
 builder.AddTodoDatabase();
 
 // Change formatting of JSON
-builder.Services.ConfigureHttpJsonOptions(options =>
-{
-    options.SerializerOptions.WriteIndented = true;
-    options.SerializerOptions.IncludeFields = true;
-});
+builder.ConfigureApiSerialization();
 
 // Add services to the container.
 builder.Services

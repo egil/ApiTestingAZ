@@ -1,6 +1,4 @@
-﻿using TodoApi.Tests.AblaExtensions;
-
-namespace TodoApi.Tests.Todos;
+﻿namespace TodoApi.Tests.Todos;
 
 public class AlbaExampleTests
 {
@@ -30,7 +28,7 @@ public class AlbaExampleTests
 
             // All assertions is evaluated in a scenario
             s.ContentTypeShouldBe("application/json");
-            s.ContentShouldBeJsonEquivalentTo("[]");
+            s.ContentShouldBeJson("[]");
         });
     }
 }

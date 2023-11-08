@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace TodoApi.Tests.AblaExtensions;
+﻿namespace TodoApi.Tests.AblaExtensions;
 
 public sealed class JsonContentTypeHeaderAssertion : JsonContentTypeHeaderWithOptionalCharsetAssertion
 {

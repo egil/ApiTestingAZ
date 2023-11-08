@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-
-namespace TodoApi.Tests.Todos;
+﻿namespace TodoApi.Tests.Todos.OpenApiSpecTests;
 
 [UsesVerify]
 public class ApiContractTests : TodoApiTestBase

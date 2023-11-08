@@ -18,9 +18,9 @@ public partial class CreateTodoTests : TodoApiTestBase
                 .ToUrl("/todos");
 
             // Assert
-            s.StatusCodeShouldBe(HttpStatusCode.Created);
+            s.StatusCodeShouldBe(StatusCodes.Status201Created);
             s.Header(HeaderNames.Location).SingleValueShouldMatch(@"/todos/\d+$");
-            s.ContentShouldBeJsonEquivalentTo(
+            s.ContentShouldBeEquivalentTo(
                 new TodoDto(
                     Id: 1,
                     Name: "Give presentation at Oredev",
@@ -44,9 +44,9 @@ public partial class CreateTodoTests : TodoApiTestBase
                 .ToUrl("/todos");
 
             // Assert
-            s.StatusCodeShouldBe(HttpStatusCode.Created);
+            s.StatusCodeShouldBe(StatusCodes.Status201Created);
             s.Header(HeaderNames.Location).SingleValueShouldMatch(@"/todos/\d+$");
-            s.ContentShouldBeJsonEquivalentTo(
+            s.ContentShouldBeEquivalentTo(
                 new TestTodo(
                     Id: 1,
                     Name: "Give presentation at Oredev",
@@ -55,9 +55,5 @@ public partial class CreateTodoTests : TodoApiTestBase
                     Modified: TimeProvider.GetUtcNow()));
         });
     }
-
-    internal record class TestCreateParams(string Name, bool IsComplete);
-
-    internal record class TestTodo(int Id, string Name, bool IsComplete, DateTimeOffset Created, DateTimeOffset Modified);
 }
 

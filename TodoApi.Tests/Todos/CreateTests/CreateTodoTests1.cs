@@ -23,9 +23,9 @@ public partial class CreateTodoTests : TodoApiTestBase
                 .ToUrl("/todos");
 
             // Assert
-            s.StatusCodeShouldBe(HttpStatusCode.Created);
+            s.StatusCodeShouldBe(StatusCodes.Status201Created);
             s.Header(HeaderNames.Location).SingleValueShouldMatch(@"/todos/\d+$");
-            s.ContentShouldBeJsonEquivalentTo($$"""
+            s.ContentShouldBeJson($$"""
                 {
                     "id": 1,
                     "name": "Give presentation at Oredev",

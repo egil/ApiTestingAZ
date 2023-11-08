@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
-using TodoApi.Data;
 
 namespace TodoApi.Todos;
 
@@ -20,7 +19,7 @@ public class UpdateTodoEndpoints
 
         if (!validationResult.IsValid)
         {
-            return TypedResults.ValidationProblem(validationResult.ToDictionary());
+            return TypedResults.ValidationProblem(validationResult.ToValidationProblemErrors());
         }
 
         var todo = await db.Todos.FindAsync(id);

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Text;
-using System.Text.Json;
+﻿using System.Text;
 using System.Text.Json.JsonDiffPatch;
 using System.Text.Json.Nodes;
 
@@ -10,8 +8,14 @@ public sealed class SemanticJsonContentBodyAssertion : IScenarioAssertion
 {
     private static readonly JsonSerializerOptions SerializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web)
     {
-        WriteIndented = true
+        WriteIndented = true,
     };
+
+    static SemanticJsonContentBodyAssertion()
+    {
+        // Needed to avoid System.InvalidOperationException : JsonSerializerOptions instance must specify a TypeInfoResolver setting before being marked as read-only.
+        SerializerOptions.MakeReadOnly(true);
+    }
 
     public JsonNode? Expected { get; }
 
@@ -24,10 +28,10 @@ public sealed class SemanticJsonContentBodyAssertion : IScenarioAssertion
     {
         var body = ex.ReadBody(context);
 
-        var actualJson = body is not null ? JsonNode.Parse(body) : null;
+        var actualJson = string.IsNullOrWhiteSpace(body) ? null : JsonNode.Parse(body);
         var diffJson = Expected.Diff(actualJson, new JsonDiffOptions
         {
-            JsonElementComparison = JsonElementComparison.Semantic,
+            JsonElementComparison = JsonElementComparison.Semantic,            
         });
 
         if (diffJson is not null)

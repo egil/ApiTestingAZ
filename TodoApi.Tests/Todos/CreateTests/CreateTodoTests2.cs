@@ -1,7 +1,4 @@
-﻿using TodoApi.Tests;
-using TodoApi.Tests.AblaExtensions;
-
-namespace TodoApi.Tests.Todos.CreateTests;
+﻿namespace TodoApi.Tests.Todos.CreateTests;
 
 public partial class CreateTodoTests : TodoApiTestBase
 {
@@ -21,9 +18,9 @@ public partial class CreateTodoTests : TodoApiTestBase
                 .ToUrl("/todos");
 
             // Assert
-            s.StatusCodeShouldBe(HttpStatusCode.Created);
+            s.StatusCodeShouldBe(StatusCodes.Status201Created);
             s.Header(HeaderNames.Location).SingleValueShouldMatch(@"/todos/\d+$");
-            s.ContentShouldBeJsonEquivalentTo(new
+            s.ContentShouldBeEquivalentTo(new
             {
                 id = 1,
                 name = "Give presentation at Oredev",

@@ -9,3 +9,5 @@ global using System.Net;
 global using Microsoft.Net.Http.Headers;
 global using System.Net.Mime;
 global using System.Text.Json;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.AspNetCore.Mvc;
