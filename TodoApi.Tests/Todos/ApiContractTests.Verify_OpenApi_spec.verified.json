@@ -19,7 +19,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TodoDTO"
+                    "$ref": "#/components/schemas/TodoDto"
                   }
                 }
               }
@@ -48,7 +48,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TodoDTO"
+                  "$ref": "#/components/schemas/TodoDto"
                 }
               }
             }
@@ -80,7 +80,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TodoDTO"
+                    "$ref": "#/components/schemas/TodoDto"
                   }
                 }
               }
@@ -113,7 +113,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TodoDTO"
+                  "$ref": "#/components/schemas/TodoDto"
                 }
               }
             }
@@ -249,7 +249,7 @@
         },
         "additionalProperties": {}
       },
-      "TodoDTO": {
+      "TodoDto": {
         "type": "object",
         "properties": {
           "id": {

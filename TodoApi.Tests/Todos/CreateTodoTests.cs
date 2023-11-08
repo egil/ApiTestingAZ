@@ -83,7 +83,7 @@ public class CreateTodoTests : TodoApiTestBase
             // Assert
             s.StatusCodeShouldBe(HttpStatusCode.Created);
             s.ContentShouldBeJsonEquivalentTo(
-                new TodoDTO(
+                new TodoDto(
                     Id: 1,
                     Name: "Give presentation at Oredev",
                     IsComplete: false,

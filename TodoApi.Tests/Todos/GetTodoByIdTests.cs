@@ -17,7 +17,7 @@ public class GetTodoByIdTests : TodoApiTestBase
         await db.SaveChangesAsync();
 
         // Act
-        var actualTodo = await Host.GetAsJson<TodoDTO>($"/todos/{todo.Id}");
+        var actualTodo = await Host.GetAsJson<TodoDto>($"/todos/{todo.Id}");
 
         // Assert
         actualTodo.Should().BeEquivalentTo(todo);
@@ -30,7 +30,7 @@ public class GetTodoByIdTests : TodoApiTestBase
         // Create a new todo via API.
         var createdTodo = await Host
             .CreateJson(new AddOrUpdateTodoDto(Name: "Give presentation at Oredev", IsComplete: false), "/todos")
-            .Receive<TodoDTO>();
+            .Receive<TodoDto>();
 
         // Act
         await Host.Scenario(s =>

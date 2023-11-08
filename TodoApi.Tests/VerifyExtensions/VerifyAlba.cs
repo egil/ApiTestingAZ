@@ -21,7 +21,7 @@ public static class VerifyAlba
         }
 
         Initialized = true;
-
+        SerializerOptions.MakeReadOnly(true);
         VerifierSettings.RegisterFileConverter<IScenarioResult>(ScenarioResultConverter);
     }
 

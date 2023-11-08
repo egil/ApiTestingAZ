@@ -22,6 +22,7 @@ public class VerifySemanticJson
         }
 
         Initialized = true;
+        SerializerOptions.MakeReadOnly(true);
 
         VerifierSettings.RegisterFileConverter<JsonDocument>(JsonDocumentConverter);
         VerifierSettings.RegisterFileConverter<JsonElement>(JsonElementConverter);

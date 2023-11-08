@@ -22,19 +22,19 @@ public static class TodoEndpoints
         todoItems.MapDelete("/{id}", DeleteTodo).WithName("delete");
     }
 
-    private static async Task<Ok<TodoDTO[]>> GetAllTodos(TodoDb db)
-        => TypedResults.Ok(await db.Todos.Select(x => new TodoDTO(x)).ToArrayAsync());
+    private static async Task<Ok<TodoDto[]>> GetAllTodos(TodoDb db)
+        => TypedResults.Ok(await db.Todos.Select(x => new TodoDto(x)).ToArrayAsync());
 
-    private static async Task<Ok<TodoDTO[]>> GetCompleteTodos(TodoDb db)
-        => TypedResults.Ok(await db.Todos.Where(t => t.IsComplete).Select(x => new TodoDTO(x)).ToArrayAsync());
+    private static async Task<Ok<TodoDto[]>> GetCompleteTodos(TodoDb db)
+        => TypedResults.Ok(await db.Todos.Where(t => t.IsComplete).Select(x => new TodoDto(x)).ToArrayAsync());
 
-    private static async Task<Results<Ok<TodoDTO>, NotFound>> GetTodo(int id, TodoDb db)
+    private static async Task<Results<Ok<TodoDto>, NotFound>> GetTodo(int id, TodoDb db)
         => await db.Todos.FindAsync(id)
             is Todo todo
-                ? TypedResults.Ok(new TodoDTO(todo))
+                ? TypedResults.Ok(new TodoDto(todo))
                 : TypedResults.NotFound();
 
-    private static async Task<Results<Created<TodoDTO>, BadRequest, ValidationProblem>> CreateTodo(
+    private static async Task<Results<Created<TodoDto>, BadRequest, ValidationProblem>> CreateTodo(
         AddOrUpdateTodoDto todoItemDTO,
         TodoDb db,
         TimeProvider timeProvider)
@@ -57,7 +57,7 @@ public static class TodoEndpoints
         db.Todos.Add(todoItem);
         await db.SaveChangesAsync();
 
-        var result = new TodoDTO(todoItem);
+        var result = new TodoDto(todoItem);
 
         return TypedResults.Created($"{EndpointBaseUrl}/{result.Id}", result);
     }
