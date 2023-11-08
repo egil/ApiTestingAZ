@@ -3,7 +3,7 @@ using System.Text.Json.Nodes;
 using System.Text.Json;
 using System.Text.Json.JsonDiffPatch;
 
-namespace TodoApi.VerifyExtensions;
+namespace TodoApi.Tests.VerifyExtensions;
 
 public class VerifySemanticJson
 {
@@ -61,7 +61,7 @@ public class VerifySemanticJson
     {
         var verifiedJson = !string.IsNullOrWhiteSpace(verified) ? JsonNode.Parse(verified) : null;
         var receivedJson = !string.IsNullOrWhiteSpace(received) ? JsonNode.Parse(received) : null;
-        var diffJson = JsonDiffPatcher.Diff(verifiedJson, receivedJson, new JsonDiffOptions
+        var diffJson = verifiedJson.Diff(receivedJson, new JsonDiffOptions
         {
             JsonElementComparison = JsonElementComparison.Semantic,
         });
@@ -83,11 +83,11 @@ public class VerifySemanticJson
     {
         builder.Append("Expected:");
         builder.AppendLine();
-        builder.Append((expected is null) ? "null" : expected.ToJsonString(SerializerOptions));
+        builder.Append(expected is null ? "null" : expected.ToJsonString(SerializerOptions));
         builder.AppendLine();
         builder.Append("Actual:");
         builder.AppendLine();
-        builder.Append((actual is null) ? "null" : actual.ToJsonString(SerializerOptions));
+        builder.Append(actual is null ? "null" : actual.ToJsonString(SerializerOptions));
         builder.AppendLine();
         builder.Append("Delta:");
         builder.AppendLine();

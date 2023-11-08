@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using static Alba.AlbaHostExtensions;
 
-namespace TodoApi.AblaExtensions;
+namespace TodoApi.Tests.AblaExtensions;
 
 public static class AlbaHttpExtensions
 {

@@ -2,11 +2,11 @@
 
 namespace TodoApi.Todos;
 
-public record class AddOrUpdateTodoDto(
-    string Name, 
+public record class UpdateTodoParameters(
+    string Name,
     bool IsComplete)
 {
-    public sealed class Validator : AbstractValidator<AddOrUpdateTodoDto>
+    public sealed class Validator : AbstractValidator<UpdateTodoParameters>
     {
         public Validator()
         {

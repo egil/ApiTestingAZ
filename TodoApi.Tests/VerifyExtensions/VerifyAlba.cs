@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace TodoApi.VerifyExtensions;
+namespace TodoApi.Tests.VerifyExtensions;
 
 public static class VerifyAlba
 {

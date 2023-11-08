@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace TodoApi.AblaExtensions;
+namespace TodoApi.Tests.AblaExtensions;
 
 public static class AblaAssertionExtensions
 {
@@ -38,7 +38,7 @@ public static class AblaAssertionExtensions
     public static Scenario ContentShouldBeJsonEquivalentTo<T>(this Scenario scenario, T expected, JsonSerializerOptions? options = null)
     {
         var expectedJson = JsonSerializer.Serialize(expected, options ?? DefaultSerializerOptions);
-        return ContentShouldBeJsonEquivalentTo(scenario, expectedJson);
+        return scenario.ContentShouldBeJsonEquivalentTo(expectedJson);
     }
 
     /// <summary>
@@ -51,6 +51,6 @@ public static class AblaAssertionExtensions
     public static Scenario ContentShouldBeJsonEquivalentTo<T>(this Scenario scenario, T[] expected, JsonSerializerOptions? options = null)
     {
         var expectedJson = JsonSerializer.Serialize(expected, options ?? DefaultSerializerOptions);
-        return ContentShouldBeJsonEquivalentTo(scenario, expectedJson);
+        return scenario.ContentShouldBeJsonEquivalentTo(expectedJson);
     }
 }

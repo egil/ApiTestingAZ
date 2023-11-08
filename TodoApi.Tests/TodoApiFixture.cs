@@ -1,7 +1,7 @@
 ﻿using TimeProviderExtensions;
-using TodoApi.AblaExtensions;
+using TodoApi.Tests.AblaExtensions;
 
-namespace TodoApi;
+namespace TodoApi.Tests;
 
 //[assembly: CollectionBehavior(DisableTestParallelization = true)]
 
@@ -19,7 +19,7 @@ public class TodoApiFixture : IAsyncLifetime
     public async Task InitializeAsync()
     {
         testDb = new UseLocalTestDb();
-        AlbaHost = await Alba.AlbaHost.For<global::Program>(
+        AlbaHost = await Alba.AlbaHost.For<Program>(
             testDb,
             new UseManualtTimeProvider(TimeProvider));
     }

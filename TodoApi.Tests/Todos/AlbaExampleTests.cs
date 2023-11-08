@@ -1,11 +1,10 @@
-﻿using System.Text.Json;
-using TodoApi.AblaExtensions;
+﻿using TodoApi.Tests.AblaExtensions;
 
-namespace TodoApi.Todos;
+namespace TodoApi.Tests.Todos;
 
 public class AlbaExampleTests
 {
-    [Fact(Skip = "Demo only")]
+    [Fact(Skip = "Example only")]
     public async Task AbleExample()
     {
         // # Declarative Syntax
@@ -16,7 +15,7 @@ public class AlbaExampleTests
         // 
         // # Extensible
         // Supports custom reusable assertions and configurations.
-        var host = await Alba.AlbaHost.For<global::Program>(
+        var host = await AlbaHost.For<Program>(
             new UseLocalTestDb(),
             new UseManualtTimeProvider());
 
@@ -24,13 +23,14 @@ public class AlbaExampleTests
 
         var json = await host.GetAsJson<JsonDocument>("/todos");
 
+        // declarative scenarios
         await host.Scenario(s =>
         {
             s.Get.Url("/todos");
 
             // All assertions is evaluated in a scenario
-            s.ContentShouldBeJsonEquivalentTo("[]");
             s.ContentTypeShouldBe("application/json");
+            s.ContentShouldBeJsonEquivalentTo("[]");
         });
     }
 }

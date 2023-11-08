@@ -1,4 +1,7 @@
-﻿namespace TodoApi.Todos;
+﻿using TodoApi.Tests.AblaExtensions;
+using TodoApi.Todos;
+
+namespace TodoApi.Tests.Todos.ReadTodosTests;
 
 public class GetTodoByIdTests : TodoApiTestBase
 {
@@ -29,13 +32,13 @@ public class GetTodoByIdTests : TodoApiTestBase
         // Arrange
         // Create a new todo via API.
         var createdTodo = await Host
-            .CreateJson(new AddOrUpdateTodoDto(Name: "Give presentation at Oredev", IsComplete: false), "/todos")
+            .CreateJson(new CreateTodoParameters(Name: "Give presentation at Oredev", IsComplete: false), "/todos")
             .Receive<TodoDto>();
 
         // Act
         await Host.Scenario(s =>
         {
-            s.Get.Url($"/todos/{createdTodo.Id}");
+            s.Get.Url($"/todos/{createdTodo!.Id}");
 
             // Assert
             s.StatusCodeShouldBeOk();

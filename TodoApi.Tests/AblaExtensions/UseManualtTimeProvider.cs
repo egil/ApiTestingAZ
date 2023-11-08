@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using TimeProviderExtensions;
 
-namespace TodoApi.AblaExtensions;
+namespace TodoApi.Tests.AblaExtensions;
 
 public sealed class UseManualtTimeProvider : IAlbaExtension
 {

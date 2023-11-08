@@ -4,7 +4,7 @@ using System.Text.Json;
 using System.Text.Json.JsonDiffPatch;
 using System.Text.Json.Nodes;
 
-namespace TodoApi.AblaExtensions;
+namespace TodoApi.Tests.AblaExtensions;
 
 public sealed class SemanticJsonContentBodyAssertion : IScenarioAssertion
 {
@@ -22,10 +22,10 @@ public sealed class SemanticJsonContentBodyAssertion : IScenarioAssertion
 
     public void Assert(Scenario scenario, HttpContext context, ScenarioAssertionException ex)
     {
-        var body = ex.ReadBody(context);        
+        var body = ex.ReadBody(context);
 
         var actualJson = body is not null ? JsonNode.Parse(body) : null;
-        var diffJson = JsonDiffPatcher.Diff(Expected, actualJson, new JsonDiffOptions
+        var diffJson = Expected.Diff(actualJson, new JsonDiffOptions
         {
             JsonElementComparison = JsonElementComparison.Semantic,
         });
@@ -44,11 +44,11 @@ public sealed class SemanticJsonContentBodyAssertion : IScenarioAssertion
     {
         builder.Append("Expected:");
         builder.AppendLine();
-        builder.Append((expected is null) ? "null" : expected.ToJsonString(SerializerOptions));
+        builder.Append(expected is null ? "null" : expected.ToJsonString(SerializerOptions));
         builder.AppendLine();
         builder.Append("Actual:");
         builder.AppendLine();
-        builder.Append((actual is null) ? "null" : actual.ToJsonString(SerializerOptions));
+        builder.Append(actual is null ? "null" : actual.ToJsonString(SerializerOptions));
         builder.AppendLine();
         builder.Append("Delta:");
         builder.AppendLine();

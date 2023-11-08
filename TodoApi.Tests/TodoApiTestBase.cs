@@ -1,6 +1,6 @@
 ﻿using TimeProviderExtensions;
 
-namespace TodoApi;
+namespace TodoApi.Tests;
 
 /// <summary>
 /// A base case for API tests that wants to share a single

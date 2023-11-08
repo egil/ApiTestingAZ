@@ -36,7 +36,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddOrUpdateTodoDto"
+                "$ref": "#/components/schemas/CreateTodoParameters"
               }
             }
           },
@@ -144,7 +144,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddOrUpdateTodoDto"
+                "$ref": "#/components/schemas/UpdateTodoParameters"
               }
             }
           },
@@ -199,7 +199,7 @@
   },
   "components": {
     "schemas": {
-      "AddOrUpdateTodoDto": {
+      "CreateTodoParameters": {
         "type": "object",
         "properties": {
           "name": {
@@ -270,6 +270,19 @@
           "modified": {
             "type": "string",
             "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateTodoParameters": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "isComplete": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false

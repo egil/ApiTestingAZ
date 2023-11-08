@@ -4,7 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Respawn;
 using System.Data.Common;
 
-namespace TodoApi.AblaExtensions;
+namespace TodoApi.Tests.AblaExtensions;
 
 public sealed class UseLocalTestDb : IAlbaExtension
 {

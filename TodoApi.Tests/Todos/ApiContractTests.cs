@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace TodoApi;
+namespace TodoApi.Tests.Todos;
 
 [UsesVerify]
 public class ApiContractTests : TodoApiTestBase
@@ -11,7 +11,7 @@ public class ApiContractTests : TodoApiTestBase
 
     [Fact]
     public async Task Verify_OpenApi_spec()
-    {        
+    {
         // Act - download the OpenApi specification
         var result = await Host.GetAsJson<JsonDocument>("/swagger/v1/swagger.json");
 
