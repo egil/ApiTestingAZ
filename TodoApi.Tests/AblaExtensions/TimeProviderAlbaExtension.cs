@@ -10,7 +10,7 @@ public sealed class TimeProviderAlbaExtension : IAlbaExtension
 
     public TimeProviderAlbaExtension(ManualTimeProvider? timeProvider = null)
     {
-        TimeProvider = timeProvider ?? new ManualTimeProvider(); ;
+        TimeProvider = timeProvider ?? new ManualTimeProvider();
     }
 
     IHostBuilder IAlbaExtension.Configure(IHostBuilder builder)

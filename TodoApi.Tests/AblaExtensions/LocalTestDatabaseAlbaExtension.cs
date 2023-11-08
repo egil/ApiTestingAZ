@@ -70,7 +70,7 @@ public sealed class LocalTestDatabaseAlbaExtension : IAlbaExtension
         // Creates database and apply EF migrations, if needed
         await dbContext.Database.EnsureCreatedAsync();
 
-        // Initialize respawner.        
+        // Initialize respawn.        
         await dbConnection.OpenAsync();
         respawner = await Respawner.CreateAsync(
             dbConnection,
@@ -83,7 +83,7 @@ public sealed class LocalTestDatabaseAlbaExtension : IAlbaExtension
             });
     }
 
-    public async ValueTask DisposeAsync()
+    async ValueTask IAsyncDisposable.DisposeAsync()
     {
         if (DeleteDatabaseAfterRun)
         {

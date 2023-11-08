@@ -3,9 +3,6 @@ using TimeProviderExtensions;
 
 namespace TodoApi.Tests;
 
-/// <summary>
-/// A test fixture that uses <see cref="LocalTestDatabaseAlbaExtension"/>.
-/// </summary>
 public class TodoApiFixture : IAsyncLifetime
 {
     private LocalTestDatabaseAlbaExtension testDb = null!;
@@ -18,7 +15,9 @@ public class TodoApiFixture : IAsyncLifetime
     {
         // Set up Alba's built in auth stub
         // https://jasperfx.github.io/alba/guide/security.html
-        var securityStub = new AuthenticationStub().WithName("TestUser");
+        var securityStub = 
+            new AuthenticationStub()
+                .WithName("TestUser");
 
         testDb = new LocalTestDatabaseAlbaExtension();
 
@@ -29,7 +28,7 @@ public class TodoApiFixture : IAsyncLifetime
     }
 
     public async Task DisposeAsync() 
-        => await testDb.DisposeAsync();
+        => await AlbaHost.DisposeAsync();
 
     public async Task ResetDatabase()
         => await testDb.ResetDatabase();
