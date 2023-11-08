@@ -14,8 +14,8 @@ public class AlbaExampleTests
         // # Extensible
         // Supports custom reusable assertions and configurations.
         var host = await AlbaHost.For<Program>(
-            new UseLocalTestDb(),
-            new UseManualtTimeProvider());
+            new LocalTestDatabaseAlbaExtension(),
+            new TimeProviderAlbaExtension());
 
         var text = await host.GetAsText("/todos");
 

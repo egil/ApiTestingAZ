@@ -4,11 +4,11 @@ using TimeProviderExtensions;
 
 namespace TodoApi.Tests.AblaExtensions;
 
-public sealed class UseManualtTimeProvider : IAlbaExtension
+public sealed class TimeProviderAlbaExtension : IAlbaExtension
 {
     public ManualTimeProvider TimeProvider { get; }
 
-    public UseManualtTimeProvider(ManualTimeProvider? timeProvider = null)
+    public TimeProviderAlbaExtension(ManualTimeProvider? timeProvider = null)
     {
         TimeProvider = timeProvider ?? new ManualTimeProvider(); ;
     }

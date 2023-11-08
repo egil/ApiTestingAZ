@@ -6,7 +6,7 @@ using System.Data.Common;
 
 namespace TodoApi.Tests.AblaExtensions;
 
-public sealed class UseLocalTestDb : IAlbaExtension
+public sealed class LocalTestDatabaseAlbaExtension : IAlbaExtension
 {
     private const string LocalDbTestConnectionString = "Server=(localdb)\\mssqllocaldb;Trusted_Connection=True;MultipleActiveResultSets=true";
     private TodoDb dbContext = null!;
