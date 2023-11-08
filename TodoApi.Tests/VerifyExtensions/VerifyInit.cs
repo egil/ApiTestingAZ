@@ -8,7 +8,6 @@ internal class VerifyInit
     public static void Initialize()
     {
         ClipboardAccept.Enable();
-        VerifyHttp.Initialize();
         VerifySemanticJson.Initialize();
         VerifyAlba.Initialize();
     }
