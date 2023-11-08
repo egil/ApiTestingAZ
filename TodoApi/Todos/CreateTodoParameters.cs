@@ -4,7 +4,7 @@ namespace TodoApi.Todos;
 
 public record class CreateTodoParameters(
     string Name, 
-    bool IsComplete)
+    bool? IsComplete = false)
 {
     public sealed class Validator : AbstractValidator<CreateTodoParameters>
     {

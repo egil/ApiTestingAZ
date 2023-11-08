@@ -179,8 +179,8 @@ public static class AblaAssertionExtensions
         string? detail = null,
         JsonSerializerOptions? options = null)
     {
-        var errrorDict = errors.ToDictionary(x => x.PropertyName, x => x.Errors);
-        scenario.ContentShouldBeProblemDetails(new ValidationProblemDetails(errrorDict)
+        var errrorsDict = errors.ToDictionary(x => x.PropertyName, x => x.Errors);
+        scenario.ContentShouldBeProblemDetails(new ValidationProblemDetails(errrorsDict)
         {
             Type = "https://tools.ietf.org/html/rfc9110#section-15.5.1",
             Title = title,

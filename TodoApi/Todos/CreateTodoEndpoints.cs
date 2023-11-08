@@ -24,7 +24,7 @@ public class CreateTodoEndpoints
 
         var todoItem = new Todo
         {
-            IsComplete = todoItemDTO.IsComplete,
+            IsComplete = todoItemDTO.IsComplete ?? false,
             Name = todoItemDTO.Name,
             Created = timeProvider.GetUtcNow(),
             Modified = timeProvider.GetUtcNow(),

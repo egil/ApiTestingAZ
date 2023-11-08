@@ -55,5 +55,30 @@ public partial class CreateTodoTests : TodoApiTestBase
                     Modified: TimeProvider.GetUtcNow()));
         });
     }
+
+    [Fact]
+    public async Task Create_todo()
+    {
+        // Arrange
+        await Host.Scenario(s =>
+        {
+            // Act
+            // Create without sending default parameter isComplete
+            s.Post
+                .Json(new TestCreateParams(Name: "Give presentation at Oredev"))
+                .ToUrl("/todos");
+
+            // Assert
+            s.StatusCodeShouldBe(StatusCodes.Status201Created);
+            s.Header(HeaderNames.Location).SingleValueShouldMatch(@"/todos/\d+$");
+            s.ContentShouldBeEquivalentTo(
+                new TestTodo(
+                    Id: 1,
+                    Name: "Give presentation at Oredev",
+                    IsComplete: false,
+                    Created: TimeProvider.GetUtcNow(),
+                    Modified: TimeProvider.GetUtcNow()));
+        });
+    }
 }
 

@@ -13,7 +13,7 @@ public partial class CreateTodoTests : TodoApiTestBase
         {
             // Act
             s.Post
-                .Json(new CreateTodoParameters(
+                .Json(new TestCreateParams(
                         Name: "Give presentation at Oredev",
                         IsComplete: false))
                 .ToUrl("/todos");

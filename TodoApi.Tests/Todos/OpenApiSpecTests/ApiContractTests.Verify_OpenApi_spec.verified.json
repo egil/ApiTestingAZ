@@ -207,7 +207,8 @@
             "nullable": true
           },
           "isComplete": {
-            "type": "boolean"
+            "type": "boolean",
+            "nullable": true
           }
         },
         "additionalProperties": false
