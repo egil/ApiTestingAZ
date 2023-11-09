@@ -43,7 +43,7 @@ public class GetTodoByIdTests : TodoApiTestBase
         // Act
         await Host.Scenario(s =>
         {
-            s.Get.Url($"/todos/{createdTodo!.Id}");
+            s.Get.Url($"/todos/{createdTodo.Id}");
 
             // Assert
             s.StatusCodeShouldBeOk();
