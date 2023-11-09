@@ -11,6 +11,7 @@ public partial class CreateTodoTests : TodoApiTestBase
         await Host.Scenario(s =>
         {
             // Act
+            // HERE BE SOME DRAGONS!
             s.Post
                 .Json(new CreateTodoParameters(
                         Name: "Give presentation at Oredev",
@@ -20,6 +21,7 @@ public partial class CreateTodoTests : TodoApiTestBase
             // Assert
             s.StatusCodeShouldBe(StatusCodes.Status201Created);
             s.Header(HeaderNames.Location).SingleValueShouldMatch(@"/todos/\d+$");
+            // HERE BE SOME DRAGONS!
             s.ContentShouldBeEquivalentTo(
                 new TodoDto(
                     Id: 1,
