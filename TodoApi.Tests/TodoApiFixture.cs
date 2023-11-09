@@ -21,10 +21,12 @@ public class TodoApiFixture : IAsyncLifetime
 
         testDb = new LocalTestDatabaseAlbaExtension();
 
+        var timeProviderOverride = new TimeProviderAlbaExtension(TimeProvider);
+
         AlbaHost = await Alba.AlbaHost.For<Program>(
             testDb,
             securityStub,
-            new TimeProviderAlbaExtension(TimeProvider));
+            timeProviderOverride);
     }
 
     public async Task DisposeAsync() 
