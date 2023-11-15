@@ -19,13 +19,21 @@ public class TodoApiFixture : IAsyncLifetime
             new AuthenticationStub()
                 .WithName("TestUser");
 
+        // Replace the database used by the API with a localdb
+        // version that can be reset via Respawn.
+        // This can be replaced with something else, e.g. a version
+        // that uses TestContainers to spin up a SQL server in 
+        // docker container instead.
         testDb = new LocalTestDatabaseAlbaExtension();
 
+        // Override the default TimeProvider.System used by the API
+        // with the ManualTimeProvider to enable tests to control
+        // the passage of time.
         var timeProviderOverride = new TimeProviderAlbaExtension(TimeProvider);
 
         AlbaHost = await Alba.AlbaHost.For<Program>(
-            testDb,
             securityStub,
+            testDb,
             timeProviderOverride);
     }
 
