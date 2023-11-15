@@ -8,7 +8,7 @@ This is the demo solution used in the talk "Testing .NET Web APIs from A to Z".
 > 
 > -- https://sessionize.com/s/egil/testing-.net-web-apis-from-a-to-z/68735
 
-The demo solution showcases the following:
+## The demo solution showcases the following:
 
 1. Using [Alba](https://jasperfx.github.io/alba/), a wrapper around `WebApplicationFactory`, to configure and run the API under test.
 
@@ -26,3 +26,9 @@ The demo solution showcases the following:
 
 4. How to create a base class that encapsulates pre- and post-test run operations (`TodoApiTestBase`).
 
+## Requirements
+
+To run the demo solution locally, you will need the following:
+
+- .NET 8 SDK
+- SQL Server LocalDB instance
