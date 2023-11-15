@@ -27,6 +27,7 @@ public class VerifySemanticJson
         VerifierSettings.RegisterFileConverter<JsonElement>(JsonElementConverter);
         VerifierSettings.RegisterFileConverter<JsonNode>(JsonNodeConverter);
         VerifierSettings.RegisterStringComparer("json", JsonSemanticCompare);
+        VerifierSettings.RegisterStreamComparer("json", JsonSemanticCompare);
     }
 
     private static ConversionResult JsonDocumentConverter(JsonDocument target, IReadOnlyDictionary<string, object> context)
@@ -56,10 +57,22 @@ public class VerifySemanticJson
         return new ConversionResult(null, "json", Encoding.UTF8.GetString(stream.ToArray()));
     }
 
+    private static Task<CompareResult> JsonSemanticCompare(Stream received, Stream verified, IReadOnlyDictionary<string, object> context)
+    {
+        var verifiedJson = JsonNode.Parse(received);
+        var receivedJson = JsonNode.Parse(verified);
+        return JsonSemanticCompare(receivedJson, verifiedJson, context);
+    }
+
     private static Task<CompareResult> JsonSemanticCompare(string received, string verified, IReadOnlyDictionary<string, object> context)
     {
         var verifiedJson = !string.IsNullOrWhiteSpace(verified) ? JsonNode.Parse(verified) : null;
         var receivedJson = !string.IsNullOrWhiteSpace(received) ? JsonNode.Parse(received) : null;
+        return JsonSemanticCompare(receivedJson, verifiedJson, context);
+    }
+
+    private static Task<CompareResult> JsonSemanticCompare(JsonNode? receivedJson, JsonNode? verifiedJson, IReadOnlyDictionary<string, object> context)
+    {
         var diffJson = verifiedJson.Diff(receivedJson, new JsonDiffOptions
         {
             JsonElementComparison = JsonElementComparison.Semantic,

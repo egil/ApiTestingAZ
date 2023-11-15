@@ -5,6 +5,10 @@ namespace TodoApi.Tests.AblaExtensions;
 
 public static class AlbaHttpExtensions
 {
+    /// <summary>
+    /// Sends a HTTP POST to <paramref name="url"/> with the <paramref name="request"/> serialized to JSON.
+    /// It expects a <see cref="StatusCodes.Status201Created"/> response back.
+    /// </summary>
     public static ResponseExpression CreateJson<T>(
         this IAlbaHost system,
         T request,
@@ -19,6 +23,11 @@ public static class AlbaHttpExtensions
         });
     }
 
+    /// <summary>
+    /// Try to get a response of type <typeparamref name="T"/> from <paramref name="url"/>.
+    /// If the response is a <see cref="StatusCodes.Status404NotFound"/> then <see langword="null"/>
+    /// is returned.
+    /// </summary>
     public static async Task<T?> TryGet<T>(
         this IAlbaHost system,
         [StringSyntax(StringSyntaxAttribute.Uri)] string url)
