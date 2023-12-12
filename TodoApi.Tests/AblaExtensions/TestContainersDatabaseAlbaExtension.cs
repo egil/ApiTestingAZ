@@ -10,10 +10,7 @@ namespace TodoApi.Tests.AblaExtensions;
 
 public sealed class TestContainersDatabaseAlbaExtension : IAlbaExtension
 {
-    private const int SQLPORT = 1433;
-    private const string SQLPASSWORD = "!Q@W3e4r5t6y7u";
     private readonly MsSqlContainer mssqlContainer;
-
     private TodoDb dbContext = null!;
     private DbConnection dbConnection = null!;
     private Respawner respawner = null!;
@@ -41,10 +38,6 @@ public sealed class TestContainersDatabaseAlbaExtension : IAlbaExtension
     {
         mssqlContainer = new MsSqlBuilder()
             .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
-            .WithPassword(SQLPASSWORD)
-            .WithCleanUp(cleanUp: true)
-            .WithPortBinding(port: SQLPORT, assignRandomHostPort: true)
-            .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(SQLPORT))
             .Build();
 
         // For CosmosDB:
@@ -70,8 +63,8 @@ public sealed class TestContainersDatabaseAlbaExtension : IAlbaExtension
     public string GetSqlServerConnectionString()
     {
         var host = mssqlContainer.Hostname;
-        var port = mssqlContainer.GetMappedPublicPort(SQLPORT);
-        return $"Server={host},{port};Database={TestDatabaseName};User Id=sa;Password={SQLPASSWORD};TrustServerCertificate=True";
+        var port = mssqlContainer.GetMappedPublicPort(MsSqlBuilder.MsSqlPort);
+        return $"Server={host},{port};Database={TestDatabaseName};User Id=sa;Password={MsSqlBuilder.DefaultPassword};TrustServerCertificate=True";
     }
 
     IHostBuilder IAlbaExtension.Configure(IHostBuilder builder)
@@ -81,7 +74,7 @@ public sealed class TestContainersDatabaseAlbaExtension : IAlbaExtension
             // Replace the default connection string with one pointing to test database.
             c.AddInMemoryCollection([
                 new KeyValuePair<string, string?>(
-                    key: "ConnectionStrings:DefaultConnection", 
+                    key: "ConnectionStrings:DefaultConnection",
                     value: GetSqlServerConnectionString())]);
         });
 
