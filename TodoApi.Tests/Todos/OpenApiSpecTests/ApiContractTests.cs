@@ -1,9 +1,11 @@
-﻿namespace TodoApi.Tests.Todos.OpenApiSpecTests;
+﻿using Xunit.Abstractions;
+
+namespace TodoApi.Tests.Todos.OpenApiSpecTests;
 
 [UsesVerify]
 public class ApiContractTests : TodoApiTestBase
 {
-    public ApiContractTests(TodoApiFixture fixture) : base(fixture)
+    public ApiContractTests(ITestOutputHelper testOutputHelper, TodoApiFixture fixture) : base(fixture, testOutputHelper)
     {
     }
 

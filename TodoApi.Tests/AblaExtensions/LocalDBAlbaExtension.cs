@@ -6,7 +6,7 @@ using System.Data.Common;
 
 namespace TodoApi.Tests.AblaExtensions;
 
-public sealed class LocalTestDatabaseAlbaExtension : IAlbaExtension
+public sealed class LocalDBAlbaExtension : IAlbaExtension
 {
     private const string LocalDbTestConnectionString = "Server=(localdb)\\mssqllocaldb;Trusted_Connection=True;MultipleActiveResultSets=true";
     private TodoDb dbContext = null!;
@@ -70,7 +70,7 @@ public sealed class LocalTestDatabaseAlbaExtension : IAlbaExtension
         // Creates database and apply EF migrations, if needed
         await dbContext.Database.EnsureCreatedAsync();
 
-        // Initialize respawn.        
+        // Initialize respawn.
         await dbConnection.OpenAsync();
         respawner = await Respawner.CreateAsync(
             dbConnection,

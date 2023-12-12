@@ -1,8 +1,10 @@
-﻿namespace TodoApi.Tests.Todos.ReadTodosTests;
+﻿using Xunit.Abstractions;
+
+namespace TodoApi.Tests.Todos.ReadTodosTests;
 
 public class GetTodoByIdTests : TodoApiTestBase
 {
-    public GetTodoByIdTests(TodoApiFixture fixture) : base(fixture)
+    public GetTodoByIdTests(TodoApiFixture fixture, ITestOutputHelper testOutputHelper) : base(fixture, testOutputHelper)
     {
     }
 

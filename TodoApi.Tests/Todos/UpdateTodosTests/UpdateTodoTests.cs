@@ -1,8 +1,10 @@
-﻿namespace TodoApi.Tests.Todos.UpdateTodosTests;
+﻿using Xunit.Abstractions;
+
+namespace TodoApi.Tests.Todos.UpdateTodosTests;
 
 public class UpdateTodoTests : TodoApiTestBase
 {
-    public UpdateTodoTests(TodoApiFixture fixture) : base(fixture)
+    public UpdateTodoTests(TodoApiFixture fixture, ITestOutputHelper testOutputHelper) : base(fixture, testOutputHelper)
     {
     }
 

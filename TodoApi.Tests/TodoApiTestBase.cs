@@ -1,4 +1,5 @@
 ﻿using TimeProviderExtensions;
+using Xunit.Abstractions;
 
 namespace TodoApi.Tests;
 
@@ -11,6 +12,7 @@ namespace TodoApi.Tests;
 public abstract partial class TodoApiTestBase : IAsyncLifetime, IDisposable
 {
     private readonly TodoApiFixture fixture;
+    private readonly ITestOutputHelper testOutputHelper;
     private IServiceScope? serviceScope;
     private bool disposedValue;
 
@@ -36,9 +38,10 @@ public abstract partial class TodoApiTestBase : IAsyncLifetime, IDisposable
         }
     }
 
-    protected TodoApiTestBase(TodoApiFixture fixture)
+    protected TodoApiTestBase(TodoApiFixture fixture, ITestOutputHelper testOutputHelper)
     {
         this.fixture = fixture;
+        this.testOutputHelper = testOutputHelper;
         Host = fixture.AlbaHost;
         TimeProvider = fixture.TimeProvider;
     }
@@ -52,6 +55,10 @@ public abstract partial class TodoApiTestBase : IAsyncLifetime, IDisposable
     /// <returns>A <see cref="Task"/> that is completed when the database has been reset.</returns>
     public virtual Task InitializeAsync()
     {
+        // Pass the current tests output helper to the fixture
+        // such that logs will be collected in the test output.
+        fixture.OutputHelper = testOutputHelper;
+
         // Reset the database before running tests.
         // This is safer compared to doing it after a test completes,
         // since a test run may exit early/crash leaving

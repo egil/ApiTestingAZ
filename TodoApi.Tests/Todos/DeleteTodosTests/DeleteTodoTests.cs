@@ -1,8 +1,10 @@
-﻿namespace TodoApi.Tests.Todos.DeleteTodosTests;
+﻿using Xunit.Abstractions;
+
+namespace TodoApi.Tests.Todos.DeleteTodosTests;
 
 public class DeleteTodoTests : TodoApiTestBase
 {
-    public DeleteTodoTests(TodoApiFixture fixture) : base(fixture)
+    public DeleteTodoTests(TodoApiFixture fixture, ITestOutputHelper testOutputHelper) : base(fixture, testOutputHelper)
     {
     }
 

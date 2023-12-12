@@ -26,6 +26,8 @@ This is the demo solution used in the talk "Testing .NET Web APIs from A to Z".
 
 4. How to create a base class that encapsulates pre- and post-test run operations (`TodoApiTestBase`).
 
+5. How to capture `ILogger` statements into test output via the `CaptureLoggingAlbaExtension` extension.
+
 ## Requirements
 
 To run the demo solution locally, you will need the following:

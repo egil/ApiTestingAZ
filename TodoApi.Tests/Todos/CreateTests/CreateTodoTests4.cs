@@ -9,7 +9,7 @@ public partial class CreateTodoTests : TodoApiTestBase
     public async Task Create_todo_using_snapshots()
     {
         // Arrange
-        await Host.Scenario(s =>
+        var result = await Host.Scenario(s =>
         {
             // Act
             s.Post
@@ -19,6 +19,10 @@ public partial class CreateTodoTests : TodoApiTestBase
                 .ToUrl("/todos");
 
             s.StatusCodeShouldBe(StatusCodes.Status201Created);
-        }).Verify();
+        });
+
+        // Assert - using semantic comparison of the entire
+        // IScenarioResult from Alba
+        await Verify(result);
     }
 }
