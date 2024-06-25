@@ -1,7 +1,5 @@
 ﻿@TodoApi_HostAddress = https://localhost:7042
 
-###
-
 POST {{TodoApi_HostAddress}}/todos
 Content-Type: application/json
 

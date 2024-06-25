@@ -2,7 +2,6 @@
 
 namespace TodoApi.Tests.Todos.CreateTests;
 
-[UsesVerify]
 public partial class CreateTodoTests : TodoApiTestBase
 {   
     [Fact]

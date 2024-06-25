@@ -2,7 +2,6 @@
 
 namespace TodoApi.Tests.Todos.OpenApiSpecTests;
 
-[UsesVerify]
 public class ApiContractTests : TodoApiTestBase
 {
     public ApiContractTests(ITestOutputHelper testOutputHelper, TodoApiFixture fixture) : base(fixture, testOutputHelper)
