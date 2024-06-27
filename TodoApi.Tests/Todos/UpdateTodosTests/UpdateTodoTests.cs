@@ -16,7 +16,9 @@ public class UpdateTodoTests : TodoApiTestBase
         {
             // Act
             s.Put
-                .Json(new TestUpdateParams("Todo doesnt exists", true))
+                .Json(new TestUpdateParams(
+                    "Todo doesnt exists",
+                    true))
                 .ToUrl("/todos/42");
 
             // Assert

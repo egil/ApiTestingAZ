@@ -13,8 +13,8 @@ public partial class CreateTodoTests : TodoApiTestBase
             // Act
             // HERE BE SOME DRAGONS!
             s.Post
-                .Json(new CreateTodoParameters(
-                        Name: "Give presentation at Oredev",
+                .Json(new TodoApi.Todos.CreateTodoParameters(
+                        Name: "Give presentation at KCDC",
                         IsComplete: false))
                 .ToUrl("/todos");
 
@@ -23,9 +23,9 @@ public partial class CreateTodoTests : TodoApiTestBase
             s.Header(HeaderNames.Location).SingleValueShouldMatch(@"/todos/\d+$");
             // HERE BE SOME DRAGONS!
             s.ContentShouldBeEquivalentTo(
-                new TodoDto(
+                new TodoApi.Todos.TodoDto(
                     Id: 1,
-                    Name: "Give presentation at Oredev",
+                    Name: "Give presentation at KCDC",
                     IsComplete: false,
                     Created: TimeProvider.GetUtcNow(),
                     Modified: TimeProvider.GetUtcNow()));
@@ -41,7 +41,7 @@ public partial class CreateTodoTests : TodoApiTestBase
             // Act 
             s.Post
                 .Json(new TestCreateParams(
-                        Name: "Give presentation at Oredev",
+                        Name: "Give presentation at KCDC",
                         IsComplete: false))
                 .ToUrl("/todos");
 
@@ -51,7 +51,7 @@ public partial class CreateTodoTests : TodoApiTestBase
             s.ContentShouldBeEquivalentTo(
                 new TestTodo(
                     Id: 1,
-                    Name: "Give presentation at Oredev",
+                    Name: "Give presentation at KCDC",
                     IsComplete: false,
                     Created: TimeProvider.GetUtcNow(),
                     Modified: TimeProvider.GetUtcNow()));
@@ -67,7 +67,7 @@ public partial class CreateTodoTests : TodoApiTestBase
             // Act
             // Create without sending default parameter isComplete
             s.Post
-                .Json(new TestCreateParams(Name: "Give presentation at Oredev"))
+                .Json(new TestCreateParams(Name: "Give presentation at KCDC"))
                 .ToUrl("/todos");
 
             // Assert
@@ -76,7 +76,7 @@ public partial class CreateTodoTests : TodoApiTestBase
             s.ContentShouldBeEquivalentTo(
                 new TestTodo(
                     Id: 1,
-                    Name: "Give presentation at Oredev",
+                    Name: "Give presentation at KCDC",
                     IsComplete: false,
                     Created: TimeProvider.GetUtcNow(),
                     Modified: TimeProvider.GetUtcNow()));

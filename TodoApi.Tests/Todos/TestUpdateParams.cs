@@ -1,3 +1,5 @@
 ﻿namespace TodoApi.Tests.Todos;
 
-internal record class TestUpdateParams(string Name, bool IsComplete);
+internal record class TestUpdateParams(
+    string Name, 
+    bool IsComplete);

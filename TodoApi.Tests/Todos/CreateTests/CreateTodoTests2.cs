@@ -12,7 +12,7 @@ public partial class CreateTodoTests : TodoApiTestBase
             s.Post
                 .Json(new
                 {
-                    name = "Give presentation at Oredev",
+                    name = "Give presentation at KCDC",
                     isComplete = false
                 })
                 .ToUrl("/todos");
@@ -23,7 +23,7 @@ public partial class CreateTodoTests : TodoApiTestBase
             s.ContentShouldBeEquivalentTo(new
             {
                 id = 1,
-                name = "Give presentation at Oredev",
+                name = "Give presentation at KCDC",
                 isComplete = false,
                 created = TimeProvider.GetUtcNow(),
                 modified = TimeProvider.GetUtcNow()

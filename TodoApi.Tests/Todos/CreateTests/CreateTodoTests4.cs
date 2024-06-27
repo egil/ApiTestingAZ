@@ -12,8 +12,8 @@ public partial class CreateTodoTests : TodoApiTestBase
         {
             // Act
             s.Post
-                .Json(new TestCreateParams(
-                        Name: "Give presentation at Oredev",
+                .Json(new TodoApi.Tests.Todos.TestCreateParams(
+                        Name: "Give presentation at KCDC",
                         IsComplete: false))
                 .ToUrl("/todos");
 
