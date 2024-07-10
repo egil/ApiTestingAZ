@@ -4,9 +4,11 @@ This is the demo solution used in the talk "Testing .NET Web APIs from A to Z".
 
 > You built an API in .NET, put it in production, customers are using it, and now you have promises to keep. Promises related to the API contract and behavior. A good test suite will help you keep those promises by protecting against regressions. It will allow you to quickly iterate, add new features and expand the API if it is resistant to refactoring and is giving fast feedback.
 > 
-> This session is about how to build such a test suite. We will discuss and showcase how to verify the API contract, the API�s behavior, and cross-cutting concerns like authentication and authorization. We will cover the pros/cons of various approaches regarding test runtime, coverage, and usage of test doubles vs. end-to-end testing using real data stores, among other things.
+> This session is about how to build such a test suite. We will discuss and showcase how to verify the API contract, the API’s behavior, and cross-cutting concerns like authentication and authorization. We will cover the pros/cons of various approaches regarding test runtime, coverage, and usage of test doubles vs. end-to-end testing using real data stores, among other things.
 > 
 > -- https://sessionize.com/s/egil/testing-.net-web-apis-from-a-to-z/68735
+
+There is a recording available of this talk from Øredev 2023: https://youtu.be/AA6zaQ1gKv8?si=3b92RZsDKByEwzI4
 
 ## The demo solution showcases the following:
 
